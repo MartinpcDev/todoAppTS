@@ -1,14 +1,13 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Tag } from './Tag'
+import { type Task } from '../types'
 
 interface Props {
-  task: string
-  status: string
-  tags: string[]
+  handleAddTask: ({ task, status, tags }: Task) => void
 }
 
-export const TaskForm = () => {
-  const [taskData, setTaskData] = useState<Props>({
+export const TaskForm: React.FC<Props> = ({ handleAddTask }) => {
+  const [taskData, setTaskData] = useState<Task>({
     task: '',
     status: 'todo',
     tags: []
@@ -31,24 +30,52 @@ export const TaskForm = () => {
     }
   }
 
+  const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { name, value } = event.target
+    setTaskData(prev => {
+      return { ...prev, [name]: value }
+    })
+  }
+
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target
+    setTaskData((prev) => { return { ...prev, [name]: value } })
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    handleAddTask(taskData)
+    setTaskData({
+      task: '',
+      status: 'todo',
+      tags: []
+    })
+  }
+
   return (
     <header className='w-full flex items-center justify-center border-b-[1px] border-solid border-[#dcdcdc]'>
-      <form className='w-[40%] pb-8'>
+      <form className='w-[40%] pb-8' onSubmit={handleSubmit}>
         <input
           className='w-full text-[20px] font-400 bg-slate-600 border-[1px] border-solid border-[#f9f9f9] rounded-md p-2 mb-4 placeholder-[#b3aeae]'
           type="text"
           placeholder="Enter your task"
           name="task"
+          value={taskData.task}
+          onChange={handleChangeInput}
         />
         <div className='flex items-center justify-between'>
           <div className='flex items-center justify-between flex-wrap gap-6 p-4'>
-            <Tag tagName='HTML' selectTag={selectTag} selected={checkTag('HTML')} />
-            <Tag tagName='CSS' selectTag={selectTag} selected={checkTag('CSS')} />
-            <Tag tagName='JavaScript' selectTag={selectTag} selected={checkTag('JavaScript')} />
-            <Tag tagName='React' selectTag={selectTag} selected={checkTag('React')} />
+            <Tag tagName='HTML' selectTag={selectTag} checkTag={checkTag} />
+            <Tag tagName='CSS' selectTag={selectTag} checkTag={checkTag} />
+            <Tag tagName='JavaScript' selectTag={selectTag} checkTag={checkTag} />
+            <Tag tagName='React' selectTag={selectTag} checkTag={checkTag} />
           </div>
           <div className='flex text-center flex-wrap justify-center items-center gap-1'>
-            <select className='text-[16px] border-[1px] border-solid border-[#f9f9f9] rounded-md w-[120px] h-8 py-0 px-[5px] bg-slate-600' name="status">
+            <select
+              className='text-[16px] border-[1px] border-solid border-[#f9f9f9] rounded-md w-[120px] h-8 py-0 px-[5px] bg-slate-600'
+              name="status"
+              value={taskData.status}
+              onChange={handleChangeSelect}>
               <option className='text-green-400 font-bold' value="todo">To Do</option>
               <option className='text-yellow-400 font-bold' value="doing">Doing</option>
               <option className='text-red-400 font-bold' value="done">Done</option>
