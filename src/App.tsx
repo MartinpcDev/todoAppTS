@@ -1,41 +1,61 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TaskForm } from './components/TaskForm'
 import { type Task } from './types'
+import { TaskColumn } from './components/TaskColumn'
+import todoIcon from './assets/direct-hit.png'
+import doingIcon from './assets/glowing-star.png'
+import doneIcon from './assets/check-mark-button.png'
 
-const mockTasks = [
-  {
-    task: 'Tarea 1',
-    status: 'Done',
-    tags: ['CSS', 'React']
-  },
-  {
-    task: 'Tarea 2',
-    status: 'To Do',
-    tags: ['JavaScript', 'HTML']
-  },
-  {
-    task: 'Tarea 3',
-    status: 'Doing',
-    tags: ['HTML', 'JavaScript']
-  }
-]
+const oldTasks = localStorage.getItem('tasks')
+console.log(oldTasks)
 
 export const App = (): JSX.Element => {
-  const [task, setTask] = useState(mockTasks)
+  const [tasks, setTasks] = useState(JSON.parse(oldTasks ?? '[]'))
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
+
   const handleAddTask = ({ task, status, tags }: Task): void => {
-    const newTask = {
+    const newTask: Task = {
+      id: crypto.randomUUID(),
       task,
       status,
       tags
     }
-    setTask(prev => {
+    setTasks((prev: Task[]): Task[] => {
       return [...prev, newTask]
     })
   }
-  console.log(task)
+
+  const handleDelete = (taskIndex: string): void => {
+    const newTasks = tasks.filter((task: Task) => task.id !== taskIndex)
+    setTasks(newTasks)
+  }
+  console.log(tasks)
   return (
-    <div className="bg-slate-800 grid-rows-[150px] auto-rows-auto w-full h-screen font-roboto flex flex-col items-center pt-4 text-white">
+    <div className="bg-slate-800 grid-rows-[150px] auto-rows-auto w-full h-screen font-roboto text-white">
       <TaskForm handleAddTask={handleAddTask} />
+      <main className='flex justify-evenly px-5 py-[8%]'>
+        <TaskColumn
+          title='To do'
+          tasks={tasks}
+          icon={todoIcon}
+          status='todo'
+          handleDelete={handleDelete} />
+        <TaskColumn
+          title='Doing'
+          tasks={tasks}
+          icon={doingIcon}
+          status='doing'
+          handleDelete={handleDelete} />
+        <TaskColumn
+          title='Done'
+          tasks={tasks}
+          icon={doneIcon}
+          status='done'
+          handleDelete={handleDelete} />
+      </main>
     </div>
   )
 }

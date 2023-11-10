@@ -8,6 +8,7 @@ interface Props {
 
 export const TaskForm: React.FC<Props> = ({ handleAddTask }) => {
   const [taskData, setTaskData] = useState<Task>({
+    id: '',
     task: '',
     status: 'todo',
     tags: []
@@ -46,6 +47,7 @@ export const TaskForm: React.FC<Props> = ({ handleAddTask }) => {
     event.preventDefault()
     handleAddTask(taskData)
     setTaskData({
+      id: '',
       task: '',
       status: 'todo',
       tags: []
@@ -53,7 +55,7 @@ export const TaskForm: React.FC<Props> = ({ handleAddTask }) => {
   }
 
   return (
-    <header className='w-full flex items-center justify-center border-b-[1px] border-solid border-[#dcdcdc]'>
+    <header className='w-full flex items-center justify-center border-b-[1px] border-solid border-[#dcdcdc] pt-4'>
       <form className='w-[40%] pb-8' onSubmit={handleSubmit}>
         <input
           className='w-full text-[20px] font-400 bg-slate-600 border-[1px] border-solid border-[#f9f9f9] rounded-md p-2 mb-4 placeholder-[#b3aeae]'
@@ -65,10 +67,10 @@ export const TaskForm: React.FC<Props> = ({ handleAddTask }) => {
         />
         <div className='flex items-center justify-between'>
           <div className='flex items-center justify-between flex-wrap gap-6 p-4'>
-            <Tag tagName='HTML' selectTag={selectTag} checkTag={checkTag} />
-            <Tag tagName='CSS' selectTag={selectTag} checkTag={checkTag} />
-            <Tag tagName='JavaScript' selectTag={selectTag} checkTag={checkTag} />
-            <Tag tagName='React' selectTag={selectTag} checkTag={checkTag} />
+            <Tag tagName='HTML' selectTag={selectTag} selected={checkTag('HTML')} />
+            <Tag tagName='CSS' selectTag={selectTag} selected={checkTag('CSS')} />
+            <Tag tagName='JavaScript' selectTag={selectTag} selected={checkTag('JavaScript')} />
+            <Tag tagName='React' selectTag={selectTag} selected={checkTag('React')} />
           </div>
           <div className='flex text-center flex-wrap justify-center items-center gap-1'>
             <select
