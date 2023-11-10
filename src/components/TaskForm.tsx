@@ -65,7 +65,7 @@ export const TaskForm: React.FC<Props> = ({ handleAddTask }) => {
           value={taskData.task}
           onChange={handleChangeInput}
         />
-        <div className='flex items-center justify-between'>
+        <div className='flex flex-col items-center justify-between sm:flex-row'>
           <div className='flex items-center justify-between flex-wrap gap-6 p-4'>
             <Tag tagName='HTML' selectTag={selectTag} selected={checkTag('HTML')} />
             <Tag tagName='CSS' selectTag={selectTag} selected={checkTag('CSS')} />

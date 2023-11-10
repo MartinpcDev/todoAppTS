@@ -18,7 +18,7 @@ export const TaskCard: React.FC<Props> = ({ title, tags, handleDelete, index }) 
             <TagRead key={index} tagName={tag} selected />
           ))}
         </div>
-        <div className='w-[35px] h-[35px] rounded-[100%] flex justify-center items-center cursor-pointer transition-all duration-300 ease-in-out hover: bg-[#ebebeb]'
+        <div className='w-[35px] h-[35px] rounded-[100%] flex justify-center items-center cursor-pointer transition-all duration-300 ease-in-out hover:bg-red-500 bg-[#ebebeb]'
           onClick={() => { handleDelete(index) }}>
           <img className='w-[20px] opacity-50 transition-all duration-300 ease-in-out hover:opacity-80' src={deleteIcon} alt="delete" />
         </div>

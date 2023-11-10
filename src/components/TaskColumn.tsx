@@ -10,7 +10,7 @@ interface Props {
 }
 export const TaskColumn: React.FC<Props> = ({ title, tasks, icon, status, handleDelete }) => {
   return (
-    <section className="w-[33.33%] m-5">
+    <section className="w-full m-5 sm:w-[33.33%] px-4">
       <h2 className="flex items-center">
         <img className="w-[30px] mr-[5px]" src={icon} alt={title} />
         {title}

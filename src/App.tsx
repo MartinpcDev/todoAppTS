@@ -32,29 +32,33 @@ export const App = (): JSX.Element => {
     const newTasks = tasks.filter((task: Task) => task.id !== taskIndex)
     setTasks(newTasks)
   }
+
   console.log(tasks)
   return (
-    <div className="bg-slate-800 grid-rows-[150px] auto-rows-auto w-full h-screen font-roboto text-white">
+    <div className="bg-slate-800 grid-rows-[150px] auto-rows-auto w-full h-auto font-roboto text-white sm:h-screen">
       <TaskForm handleAddTask={handleAddTask} />
-      <main className='flex justify-evenly px-5 py-[8%]'>
+      <main className='flex flex-col justify-evenly px-5 py-[8%] sm:flex-row '>
         <TaskColumn
           title='To do'
           tasks={tasks}
           icon={todoIcon}
           status='todo'
-          handleDelete={handleDelete} />
+          handleDelete={handleDelete}
+        />
         <TaskColumn
           title='Doing'
           tasks={tasks}
           icon={doingIcon}
           status='doing'
-          handleDelete={handleDelete} />
+          handleDelete={handleDelete}
+        />
         <TaskColumn
           title='Done'
           tasks={tasks}
           icon={doneIcon}
           status='done'
-          handleDelete={handleDelete} />
+          handleDelete={handleDelete}
+        />
       </main>
     </div>
   )
